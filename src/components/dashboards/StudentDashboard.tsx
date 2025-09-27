@@ -15,8 +15,13 @@ import {
   Award,
   TrendingUp,
   Calendar,
-  Bell
+  Bell,
+  MessageSquare,
+  Search,
+  User,
+  GraduationCap
 } from 'lucide-react';
+import Sidebar from '@/components/layout/Sidebar';
 
 interface Internship {
   id: string;
@@ -68,7 +73,7 @@ export default function StudentDashboard() {
         `)
         .eq('status', 'active')
         .order('created_at', { ascending: false })
-        .limit(6);
+        .limit(4);
 
       // Fetch student profile
       const { data: studentData } = await supabase
@@ -92,19 +97,9 @@ export default function StudentDashboard() {
         .eq('student_id', studentData?.id)
         .order('applied_at', { ascending: false });
 
-      // Fetch notifications
-      const { data: notificationsData } = await supabase
-        .from('notifications')
-        .select('*')
-        .eq('user_id', profile.user_id)
-        .eq('read', false)
-        .order('created_at', { ascending: false })
-        .limit(3);
-
       setInternships(internshipsData || []);
       setStudentProfile(studentData);
       setApplications(applicationsData || []);
-      setNotifications(notificationsData || []);
       
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -113,219 +108,231 @@ export default function StudentDashboard() {
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'accepted':
-        return 'bg-success';
-      case 'rejected':
-        return 'bg-destructive';
-      case 'pending':
-        return 'bg-warning';
-      default:
-        return 'bg-muted';
-    }
-  };
-
-  const profileProgress = studentProfile ? 
-    ((studentProfile.course ? 25 : 0) + 
-     (studentProfile.college_name ? 25 : 0) + 
-     (studentProfile.skills?.length > 0 ? 25 : 0) + 
-     (studentProfile.semester ? 25 : 0)) : 0;
-
   if (loading) {
     return (
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {[...Array(6)].map((_, i) => (
-          <Card key={i} className="animate-pulse">
-            <CardContent className="p-6">
-              <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-              <div className="h-3 bg-muted rounded w-1/2"></div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="flex min-h-screen bg-background">
+        <Sidebar />
+        <div className="flex-1 p-8">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[...Array(6)].map((_, i) => (
+              <Card key={i} className="animate-pulse">
+                <CardContent className="p-6">
+                  <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
+                  <div className="h-3 bg-muted rounded w-1/2"></div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Welcome Section */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="md:col-span-2 bg-gradient-primary text-primary-foreground">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold mb-2">Welcome back, {profile?.full_name}!</h2>
-                <p className="opacity-90">Ready to find your next opportunity?</p>
-              </div>
-              <BookOpen className="w-12 h-12 opacity-80" />
+    <div className="flex min-h-screen bg-background">
+      <Sidebar />
+      
+      <div className="flex-1">
+        {/* Header */}
+        <header className="bg-card border-b border-border px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">Dashboard</h1>
             </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{profileProgress}%</p>
-                <p className="text-sm text-muted-foreground">Profile Complete</p>
-              </div>
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium">{profile?.full_name || 'Rajesh Kumar'}</span>
+              <span className="text-xs text-muted-foreground">Semester {studentProfile?.semester || 5}</span>
+              <Bell className="w-5 h-5 text-muted-foreground" />
             </div>
-            <Progress value={profileProgress} className="mt-3" />
-          </CardContent>
-        </Card>
+          </div>
+        </header>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-warning/10 rounded-lg">
-                <FileText className="w-6 h-6 text-warning" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{applications.length}</p>
-                <p className="text-sm text-muted-foreground">Applications</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Internship Opportunities */}
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Building2 className="w-5 h-5 text-primary" />
-                Latest Opportunities
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {internships.map((internship) => (
-                <div key={internship.id} className="p-4 border border-border rounded-lg hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h3 className="font-semibold text-lg">{internship.title}</h3>
-                      <p className="text-muted-foreground flex items-center gap-1">
-                        <Building2 className="w-4 h-4" />
-                        {internship.company_profiles.company_name}
-                        {internship.company_profiles.verified && (
-                          <Badge variant="secondary" className="ml-2">Verified</Badge>
-                        )}
-                      </p>
-                    </div>
-                    <Button size="sm" className="bg-gradient-primary">
-                      Apply
-                    </Button>
-                  </div>
-
-                  <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-                    {internship.description}
-                  </p>
-
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-4 h-4" />
-                      {internship.is_remote ? 'Remote' : internship.location}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      {internship.duration_months} months
-                    </span>
-                    {internship.stipend > 0 && (
-                      <span className="flex items-center gap-1">
-                        <DollarSign className="w-4 h-4" />
-                        ₹{internship.stipend.toLocaleString()}
-                      </span>
-                    )}
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      Due {new Date(internship.application_deadline).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Notifications */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Bell className="w-5 h-5 text-primary" />
-                Notifications
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {notifications.length > 0 ? (
-                notifications.map((notification) => (
-                  <div key={notification.id} className="p-3 bg-muted/50 rounded-lg">
-                    <p className="font-medium text-sm">{notification.title}</p>
-                    <p className="text-xs text-muted-foreground">{notification.message}</p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-muted-foreground text-sm">No new notifications</p>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <Button variant="outline" className="w-full justify-start" size="sm">
-                <FileText className="w-4 h-4 mr-2" />
-                Update Resume
-              </Button>
-              <Button variant="outline" className="w-full justify-start" size="sm">
-                <BookOpen className="w-4 h-4 mr-2" />
-                Browse Courses
-              </Button>
-              <Button variant="outline" className="w-full justify-start" size="sm">
-                <Award className="w-4 h-4 mr-2" />
-                View Certificates
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Application Status */}
-          {applications.length > 0 && (
+        <main className="p-8 space-y-8">
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card>
-              <CardHeader>
-                <CardTitle>Recent Applications</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {applications.slice(0, 3).map((application) => (
-                  <div key={application.id} className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">
-                        {application.internships?.title}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {application.internships?.company_profiles?.company_name}
-                      </p>
-                    </div>
-                    <Badge 
-                      variant="secondary" 
-                      className={`${getStatusColor(application.status)} text-white ml-2`}
-                    >
-                      {application.status}
-                    </Badge>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-3xl font-bold">3</p>
+                    <p className="text-sm text-muted-foreground">Active Applications</p>
                   </div>
-                ))}
+                  <FileText className="w-8 h-8 text-primary" />
+                </div>
               </CardContent>
             </Card>
-          )}
-        </div>
+
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-3xl font-bold">1</p>
+                    <p className="text-sm text-muted-foreground">Internship Ongoing</p>
+                  </div>
+                  <Building2 className="w-8 h-8 text-primary" />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-3xl font-bold">85%</p>
+                    <p className="text-sm text-muted-foreground">Profile Complete</p>
+                  </div>
+                  <User className="w-8 h-8 text-primary" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Internship Recommendations */}
+            <div className="lg:col-span-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Internship Recommendations</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {[
+                    {
+                      title: "Web Development Intern",
+                      location: "Bengaluru",
+                      year: "2nd Year",
+                      company: "TCS Digital Solutions"
+                    },
+                    {
+                      title: "Software Engineering Intern", 
+                      location: "Mumbai",
+                      year: "3rd Year",
+                      company: "Infosys Technologies"
+                    },
+                    {
+                      title: "Data Science Intern",
+                      location: "Pune",
+                      year: "Final Year", 
+                      company: "Wipro Analytics"
+                    }
+                  ].map((internship, index) => (
+                    <div key={index} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+                      <div>
+                        <h4 className="font-semibold">{internship.title}</h4>
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
+                          <span>{internship.location}</span>
+                          <span>{internship.year}</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1">{internship.company}</p>
+                      </div>
+                      <Button size="sm" variant="outline">Apply</Button>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
+              {/* My Logbook */}
+              <Card className="mt-6">
+                <CardHeader>
+                  <CardTitle>My Logbook</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">April 20</p>
+                        <p className="text-sm text-muted-foreground">Worked on the company website redesign project using React and Tailwind CSS</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">April 18</p>
+                        <p className="text-sm text-muted-foreground">Attended team meeting and learned about microservices architecture</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">April 15</p>
+                        <p className="text-sm text-muted-foreground">Completed initial training module on Node.js backend development</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Sidebar Content */}
+            <div className="space-y-6">
+              {/* Upcoming Deadlines */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Upcoming Deadlines</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-medium">Report Submission</p>
+                        <span className="text-lg font-bold">April 25</span>
+                      </div>
+                      <Progress value={75} className="h-3 bg-green-100" />
+                    </div>
+                    
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-medium">Mid-term Evaluation</p>
+                        <span className="text-sm text-muted-foreground">May 5</span>
+                      </div>
+                      <Progress value={45} className="h-2" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* My Logbook Summary */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>My Logbook</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="text-right">
+                      <p className="text-sm">April 20</p>
+                      <p className="text-xs text-muted-foreground">Worked on the company website</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Quick Actions */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button variant="outline" className="w-full justify-start gap-2" size="sm">
+                    <FileText className="w-4 h-4" />
+                    Update Resume
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start gap-2" size="sm">
+                    <Award className="w-4 h-4" />
+                    View Certificates
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start gap-2" size="sm">
+                    <MessageSquare className="w-4 h-4" />
+                    Give Feedback
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start gap-2" size="sm">
+                    <GraduationCap className="w-4 h-4" />
+                    Skill Courses
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   );

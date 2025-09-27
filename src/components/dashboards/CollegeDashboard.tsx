@@ -2,93 +2,57 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Users, 
-  Building2, 
+  Users,
+  Building2,
+  FileText,
   Award,
   TrendingUp,
-  GraduationCap,
+  BookOpen,
   Shield,
   AlertTriangle,
+  Calendar,
+  MessageSquare,
   CheckCircle,
-  Clock,
-  BarChart3
+  Bell,
+  GraduationCap
 } from 'lucide-react';
+import Sidebar from '@/components/layout/Sidebar';
+
+interface CollegeStats {
+  totalStudents: number;
+  activeInternships: number;
+  verifiedCompanies: number;
+  certificatesIssued: number;
+}
 
 export default function CollegeDashboard() {
   const { profile } = useAuth();
-  const [stats, setStats] = useState({
+  const [stats, setStats] = useState<CollegeStats>({
     totalStudents: 0,
     activeInternships: 0,
     verifiedCompanies: 0,
-    certificatesIssued: 0,
-    pendingApprovals: 0,
-    fraudAlerts: 0,
+    certificatesIssued: 0
   });
-  const [recentActivity, setRecentActivity] = useState<any[]>([]);
-  const [topCompanies, setTopCompanies] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchDashboardData();
-  }, []);
+  }, [profile]);
 
   const fetchDashboardData = async () => {
+    if (!profile) return;
+
     try {
-      // Get all students (simplified - in real app would filter by college)
-      const { data: studentsData } = await supabase
-        .from('student_profiles')
-        .select('id');
-
-      // Get active internships
-      const { data: internshipsData } = await supabase
-        .from('internships')
-        .select('id')
-        .eq('status', 'active');
-
-      // Get verified companies
-      const { data: companiesData } = await supabase
-        .from('company_profiles')
-        .select('id, company_name, verified')
-        .eq('verified', true);
-
-      // Get pending company verifications (simplified)
-      const { data: pendingCompaniesData } = await supabase
-        .from('company_profiles')
-        .select('id')
-        .eq('verification_status', 'pending');
-
-      // Get recent applications for activity feed
-      const { data: applicationsData } = await supabase
-        .from('applications')
-        .select(`
-          *,
-          internships (
-            title,
-            company_profiles (
-              company_name
-            )
-          ),
-          student_profiles (
-            user_id,
-            college_name
-          )
-        `)
-        .order('applied_at', { ascending: false })
-        .limit(10);
-
+      // Fetch college statistics - using mock data for now
       setStats({
-        totalStudents: studentsData?.length || 0,
-        activeInternships: internshipsData?.length || 0,
-        verifiedCompanies: companiesData?.length || 0,
-        certificatesIssued: Math.floor(Math.random() * 50) + 20, // Simulated
-        pendingApprovals: pendingCompaniesData?.length || 0,
-        fraudAlerts: Math.floor(Math.random() * 3), // Simulated
+        totalStudents: 150,
+        activeInternships: 40,
+        verifiedCompanies: 25,
+        certificatesIssued: 120
       });
-
-      setRecentActivity(applicationsData || []);
-      setTopCompanies(companiesData || []);
 
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -97,242 +61,324 @@ export default function CollegeDashboard() {
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'accepted':
-        return 'text-success';
-      case 'rejected':
-        return 'text-destructive';
-      case 'pending':
-        return 'text-warning';
-      default:
-        return 'text-muted-foreground';
-    }
-  };
-
   if (loading) {
     return (
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {[...Array(6)].map((_, i) => (
-          <Card key={i} className="animate-pulse">
-            <CardContent className="p-6">
-              <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-              <div className="h-3 bg-muted rounded w-1/2"></div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="flex min-h-screen bg-background">
+        <Sidebar />
+        <div className="flex-1 p-8">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[...Array(6)].map((_, i) => (
+              <Card key={i} className="animate-pulse">
+                <CardContent className="p-6">
+                  <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
+                  <div className="h-3 bg-muted rounded w-1/2"></div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-3">
-        <GraduationCap className="w-8 h-8 text-primary" />
-        <div>
-          <h1 className="text-3xl font-bold">College Admin Dashboard</h1>
-          <p className="text-muted-foreground">Manage students, companies, and internships</p>
-        </div>
-      </div>
-
-      {/* Stats Overview */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-gradient-primary text-primary-foreground">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm opacity-90">Students Registered</p>
-                <p className="text-3xl font-bold">{stats.totalStudents}</p>
-              </div>
-              <Users className="w-8 h-8 opacity-80" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
+    <div className="flex min-h-screen bg-background">
+      <Sidebar />
+      
+      <div className="flex-1">
+        {/* Header */}
+        <header className="bg-card border-b border-border px-8 py-4">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <Building2 className="w-6 h-6 text-primary" />
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <GraduationCap className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{stats.activeInternships}</p>
-                <p className="text-sm text-muted-foreground">Active Internships</p>
+                <h1 className="text-2xl font-bold">College Dashboard</h1>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-success/10 rounded-lg">
-                <Shield className="w-6 h-6 text-success" />
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
+                <Users className="w-5 h-5 text-muted-foreground" />
               </div>
-              <div>
-                <p className="text-2xl font-bold">{stats.verifiedCompanies}</p>
-                <p className="text-sm text-muted-foreground">Verified Companies</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-warning/10 rounded-lg">
-                <Award className="w-6 h-6 text-warning" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{stats.certificatesIssued}</p>
-                <p className="text-sm text-muted-foreground">Certificates Issued</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Alerts Section */}
-      {(stats.pendingApprovals > 0 || stats.fraudAlerts > 0) && (
-        <div className="grid gap-4 md:grid-cols-2">
-          {stats.pendingApprovals > 0 && (
-            <Card className="border-warning bg-warning/5">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <Clock className="w-5 h-5 text-warning" />
-                  <div>
-                    <p className="font-medium text-warning">Pending Approvals</p>
-                    <p className="text-sm text-muted-foreground">
-                      {stats.pendingApprovals} companies awaiting verification
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {stats.fraudAlerts > 0 && (
-            <Card className="border-destructive bg-destructive/5">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <AlertTriangle className="w-5 h-5 text-destructive" />
-                  <div>
-                    <p className="font-medium text-destructive">Fraud Alerts</p>
-                    <p className="text-sm text-muted-foreground">
-                      {stats.fraudAlerts} potential fraud cases detected
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-      )}
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Recent Activity */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-primary" />
-              Recent Activity
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {recentActivity.slice(0, 8).map((activity, index) => (
-              <div key={activity.id || index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <div>
-                    <p className="text-sm font-medium">
-                      New application for {activity.internships?.title}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {activity.internships?.company_profiles?.company_name}
-                    </p>
-                  </div>
-                </div>
-                <Badge 
-                  variant="secondary" 
-                  className={`text-xs ${getStatusColor(activity.status)}`}
-                >
-                  {activity.status}
-                </Badge>
-              </div>
-            ))}
-
-            {recentActivity.length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
-                <BarChart3 className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>No recent activity</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Top Companies */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Building2 className="w-5 h-5 text-primary" />
-              Verified Companies
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {topCompanies.slice(0, 8).map((company, index) => (
-              <div key={company.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Building2 className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">{company.company_name}</p>
-                    <p className="text-xs text-muted-foreground">Verified Partner</p>
-                  </div>
-                </div>
-                <Badge variant="secondary" className="bg-success/10 text-success">
-                  <CheckCircle className="w-3 h-3 mr-1" />
-                  Verified
-                </Badge>
-              </div>
-            ))}
-
-            {topCompanies.length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
-                <Building2 className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>No verified companies yet</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Analytics Section Placeholder */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="w-5 h-5 text-primary" />
-            Analytics Overview
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="text-center p-6 bg-gradient-secondary rounded-lg">
-              <div className="text-2xl font-bold text-primary mb-2">85%</div>
-              <div className="text-sm text-muted-foreground">Placement Rate</div>
-            </div>
-            <div className="text-center p-6 bg-gradient-secondary rounded-lg">
-              <div className="text-2xl font-bold text-primary mb-2">4.2</div>
-              <div className="text-sm text-muted-foreground">Avg Company Rating</div>
-            </div>
-            <div className="text-center p-6 bg-gradient-secondary rounded-lg">
-              <div className="text-2xl font-bold text-primary mb-2">12</div>
-              <div className="text-sm text-muted-foreground">Avg Application Time (days)</div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </header>
+
+        <main className="p-8 space-y-8">
+          {/* Overview Section */}
+          <div>
+            <h2 className="text-xl font-semibold mb-6">Overview</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Total Students Registered</p>
+                      <p className="text-3xl font-bold">{stats.totalStudents}</p>
+                    </div>
+                    <Users className="w-8 h-8 text-primary" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Active Internships</p>
+                      <p className="text-3xl font-bold">{stats.activeInternships}</p>
+                    </div>
+                    <Building2 className="w-8 h-8 text-primary" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Verified Companies</p>
+                      <p className="text-3xl font-bold">{stats.verifiedCompanies}</p>
+                    </div>
+                    <Shield className="w-8 h-8 text-primary" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Certificates Issued</p>
+                      <p className="text-3xl font-bold">{stats.certificatesIssued}</p>
+                      <CheckCircle className="w-4 h-4 text-green-500 inline ml-2" />
+                    </div>
+                    <Award className="w-8 h-8 text-primary" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Student Management */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Student Management</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
+                    <Users className="w-5 h-5 text-primary" />
+                    <span className="text-sm">View student profiles</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
+                    <FileText className="w-5 h-5 text-primary" />
+                    <span className="text-sm">Internship applications tracking</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
+                    <TrendingUp className="w-5 h-5 text-primary" />
+                    <span className="text-sm">Performance reports (AI-generated)</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
+                    <BookOpen className="w-5 h-5 text-primary" />
+                    <span className="text-sm">Auto-generated logbooks & certificates</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Company/Internship Management */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Company/Internship Management</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
+                    <Shield className="w-5 h-5 text-primary" />
+                    <span className="text-sm">Verify companies via Blockchain</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
+                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <span className="text-sm">Approve/reject internship postings</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
+                    <AlertTriangle className="w-5 h-5 text-orange-500" />
+                    <span className="text-sm">See fraud detection alerts</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
+                    <Users className="w-5 h-5 text-primary" />
+                    <span className="text-sm">Track which students joined which company</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Analytics & Reports */}
+            <div className="lg:col-span-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Analytics & Reports</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Internship Distribution */}
+                    <div>
+                      <h4 className="text-sm font-semibold mb-3">Internship distribution</h4>
+                      <div className="relative w-32 h-32 mx-auto mb-4">
+                        <div className="w-32 h-32 rounded-full" style={{
+                          background: 'conic-gradient(#3b82f6 0deg 162deg, #10b981 162deg 234deg, #ef4444 234deg 306deg, #f59e0b 306deg 360deg)'
+                        }}></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center">
+                            <div className="text-center">
+                              <div className="text-lg font-bold">40</div>
+                              <div className="text-xs text-muted-foreground">Total</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-2 text-xs">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                          <span>Software Development (15)</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                          <span>Data Science (10)</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                          <span>Marketing (8)</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                          <span>Others (7)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Top Companies */}
+                    <div>
+                      <h4 className="text-sm font-semibold mb-3">Top companies offering internships</h4>
+                      <div className="space-y-3">
+                        <div className="flex items-end gap-3">
+                          <div className="w-8 h-12 bg-primary rounded"></div>
+                          <div className="w-8 h-10 bg-primary/80 rounded"></div>
+                          <div className="w-8 h-8 bg-primary/60 rounded"></div>
+                        </div>
+                        <div className="text-xs text-center space-y-1">
+                          <div>TCS</div>
+                          <div>Infosys</div>
+                          <div>Wipro</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Notifications */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Bell className="w-5 h-5" />
+                  Notifications
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3 p-3 bg-blue-50 border-l-4 border-primary rounded">
+                    <Bell className="w-4 h-4 text-primary mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-xs font-medium">Pending approvals</p>
+                      <p className="text-xs text-muted-foreground">5 company verifications pending</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3 p-3 bg-orange-50 border-l-4 border-orange-500 rounded">
+                    <AlertTriangle className="w-4 h-4 text-orange-500 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-xs font-medium">Fraud detection flags</p>
+                      <p className="text-xs text-muted-foreground">Suspicious activity detected</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3 p-3 bg-green-50 border-l-4 border-green-500 rounded">
+                    <Calendar className="w-4 h-4 text-green-500 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-xs font-medium">Internship deadlines</p>
+                      <p className="text-xs text-muted-foreground">3 applications due this week</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3 p-3 bg-purple-50 border-l-4 border-purple-500 rounded">
+                    <Award className="w-4 h-4 text-purple-500 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-xs font-medium">Certificate issuance reminders</p>
+                      <p className="text-xs text-muted-foreground">12 certificates ready for approval</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Feedback Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MessageSquare className="w-5 h-5" />
+                Student & Company Feedback
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="text-sm font-semibold mb-3">Recent Student Feedback</h4>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <p className="text-sm">"Great support from college placement cell"</p>
+                      <p className="text-xs text-muted-foreground mt-1">- Kavya Reddy, Final Year CSE</p>
+                      <div className="text-xs mt-1">★★★★★ 5.0</div>
+                    </div>
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <p className="text-sm">"Internship process was smooth and transparent"</p>
+                      <p className="text-xs text-muted-foreground mt-1">- Vikash Singh, Third Year ECE</p>
+                      <div className="text-xs mt-1">★★★★☆ 4.5</div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold mb-3">Company Feedback</h4>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <p className="text-sm">"Students are well-prepared and skilled"</p>
+                      <p className="text-xs text-muted-foreground mt-1">- TCS Recruitment Team</p>
+                      <div className="text-xs mt-1">★★★★★ 5.0</div>
+                    </div>
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <p className="text-sm">"Excellent coordination from college administration"</p>
+                      <p className="text-xs text-muted-foreground mt-1">- Infosys HR Department</p>
+                      <div className="text-xs mt-1">★★★★☆ 4.8</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4">
+                <Button variant="outline" size="sm" className="w-full">
+                  View All Feedback & Analytics
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </main>
+      </div>
     </div>
   );
 }

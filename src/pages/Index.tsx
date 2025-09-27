@@ -67,7 +67,7 @@ const Index = () => {
         <div className="relative container mx-auto px-4 py-20">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-              InternLink
+              Prashiskshan
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8">
               Connecting Students, Colleges, and Industry
@@ -166,9 +166,8 @@ const Index = () => {
             Ready to Get Started?
           </h2>
           <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-            Join thousands of students, companies, and colleges already using InternLink 
-            to build successful career connections.
-          </p>
+             to build successful career connections.
+           </p>
           <Button 
             size="lg" 
             variant="secondary"
@@ -186,7 +185,7 @@ const Index = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <GraduationCap className="w-6 h-6 text-primary" />
-            <span className="text-xl font-bold text-foreground">InternLink</span>
+            <span className="text-xl font-bold text-foreground">Prashiskshan</span>
           </div>
           <p className="text-muted-foreground">
             Connecting Students, Colleges, and Industry • Built with ❤️ for the future of education

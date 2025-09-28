@@ -45,9 +45,9 @@ const Index = () => {
   ];
 
   const stats = [
-    { icon: Users2, label: "Active Students", value: "2,500+" },
-    { icon: Building2, label: "Partner Companies", value: "150+" },
-    { icon: CheckCircle, label: "Successful Placements", value: "1,800+" },
+    { icon: Users2, label: "Active Students", value: "6" },
+    { icon: Building2, label: "Partner Companies", value: "0" },
+    { icon: CheckCircle, label: "Successful Placements", value: "0" },
     { icon: Star, label: "Average Rating", value: "4.8/5" }
   ];
 

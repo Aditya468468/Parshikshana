@@ -134,7 +134,10 @@ export default function Sidebar({ className }: SidebarProps) {
             "w-full gap-2",
             isCollapsed && "px-3 justify-center"
           )}
-          onClick={signOut}
+          onClick={async () => {
+            await signOut();
+            window.location.href = '/';
+          }}
         >
           <LogOut className="w-4 h-4" />
           {!isCollapsed && "Sign Out"}

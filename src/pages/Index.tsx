@@ -11,7 +11,7 @@ const Index = () => {
   const { user, loading } = useAuth();
 
   // Redirect to dashboard if user is authenticated
-  if (user) {
+  if (user && !loading) {
     return <Navigate to="/dashboard" replace />;
   }
 

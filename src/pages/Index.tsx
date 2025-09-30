@@ -8,6 +8,7 @@ import { GraduationCap, Building2, Users, ArrowRight, CheckCircle, Star, Users2,
 import { Loader2 } from 'lucide-react';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import { AccessibilityToggle } from '@/components/AccessibilityToggle';
+import AIFeaturesSection from '@/components/AIFeaturesSection';
 import heroImage from '@/assets/hero-internship.jpg';
 
 const Index = () => {
@@ -249,6 +250,9 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      {/* AI Features Section */}
+      <AIFeaturesSection />
 
       {/* Mountain Ridge Divider */}
       <div className="mountain-divider"></div>

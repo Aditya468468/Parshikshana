@@ -19,7 +19,11 @@ import {
   MessageSquare,
   Search,
   User,
-  GraduationCap
+  GraduationCap,
+  Sparkles,
+  Shield,
+  CheckCircle,
+  Brain
 } from 'lucide-react';
 import Sidebar from '@/components/layout/Sidebar';
 
@@ -187,12 +191,76 @@ export default function StudentDashboard() {
             </Card>
           </div>
 
+          {/* AI Progress & Insights Section */}
+          <Card className="border-l-4 border-l-accent">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Brain className="w-5 h-5 text-accent" />
+                <CardTitle>AI-Powered Insights</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Skill Gap Analysis */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-sm font-semibold">Skill Gap Analysis</h4>
+                    <Badge variant="outline" className="border-accent text-accent">
+                      <Sparkles className="w-3 h-3 mr-1" />
+                      AI Generated
+                    </Badge>
+                  </div>
+                  <div className="relative pt-1">
+                    <div className="flex mb-2 items-center justify-between">
+                      <div>
+                        <span className="text-xs font-semibold inline-block text-accent">
+                          70% Ready
+                        </span>
+                      </div>
+                    </div>
+                    <div className="relative h-3 mb-4 overflow-hidden rounded-full bg-secondary">
+                      <div 
+                        className="h-full rounded-full bg-gradient-primary" 
+                        style={{ width: '70%' }}
+                      ></div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Recommended: Learn React, Node.js, and Docker to reach 100% readiness
+                  </p>
+                </div>
+
+                {/* AI Badges */}
+                <div className="space-y-3">
+                  <h4 className="text-sm font-semibold">AI Verifications</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 p-2 bg-success/10 rounded-lg">
+                      <CheckCircle className="w-4 h-4 text-success" />
+                      <span className="text-xs font-medium">Verified by AI</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 bg-success/10 rounded-lg">
+                      <Shield className="w-4 h-4 text-success" />
+                      <span className="text-xs font-medium">Plagiarism Checked</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 bg-success/10 rounded-lg">
+                      <CheckCircle className="w-4 h-4 text-success" />
+                      <span className="text-xs font-medium">NEP Compliant</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Internship Recommendations */}
+            {/* AI Recommended Internships */}
             <div className="lg:col-span-2">
-              <Card>
+              <Card className="border-t-4 border-t-accent">
                 <CardHeader>
-                  <CardTitle>Internship Recommendations</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-accent" />
+                    <CardTitle>✨ Recommended Internships by AI</CardTitle>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {[
@@ -200,40 +268,55 @@ export default function StudentDashboard() {
                       title: "Web Development Intern",
                       location: "Bengaluru",
                       year: "2nd Year",
-                      company: "TCS Digital Solutions"
+                      company: "TCS Digital Solutions",
+                      match: 95
                     },
                     {
                       title: "Software Engineering Intern", 
                       location: "Mumbai",
                       year: "3rd Year",
-                      company: "Infosys Technologies"
+                      company: "Infosys Technologies",
+                      match: 88
                     },
                     {
                       title: "Data Science Intern",
                       location: "Pune",
                       year: "Final Year", 
-                      company: "Wipro Analytics"
+                      company: "Wipro Analytics",
+                      match: 82
                     }
                   ].map((internship, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
-                      <div>
-                        <h4 className="font-semibold">{internship.title}</h4>
+                    <div key={index} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg hover-lift">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h4 className="font-semibold">{internship.title}</h4>
+                          <Badge className="bg-accent text-accent-foreground text-xs">
+                            {internship.match}% Match
+                          </Badge>
+                        </div>
                         <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
                           <span>{internship.location}</span>
                           <span>{internship.year}</span>
                         </div>
                         <p className="text-xs text-muted-foreground mt-1">{internship.company}</p>
                       </div>
-                      <Button size="sm" variant="outline">Apply</Button>
+                      <Button size="sm" className="bg-primary hover:bg-primary/90">Apply</Button>
                     </div>
                   ))}
                 </CardContent>
               </Card>
 
-              {/* My Logbook */}
+              {/* My Logbook with AI Badge */}
               <Card className="mt-6">
                 <CardHeader>
-                  <CardTitle>My Logbook</CardTitle>
+                  <div className="flex items-center justify-between">
+                    <CardTitle>My Logbook</CardTitle>
+                    <Badge variant="outline" className="border-success text-success">
+                      <CheckCircle className="w-3 h-3 mr-1" />
+                      NEP Compliant
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">Generated by AI</p>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">

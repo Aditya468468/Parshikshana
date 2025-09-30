@@ -148,7 +148,67 @@ All colors MUST be HSL.
     font-size: 16px;
   }
 
+  body.font-large {
+    font-size: 18px;
+  }
+
+  body.font-small {
+    font-size: 14px;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold text-primary;
+  }
+}
+
+@layer utilities {
+  /* Jali Pattern Background */
+  .jali-pattern {
+    background-image: 
+      repeating-linear-gradient(45deg, transparent, transparent 10px, hsl(var(--primary) / 0.02) 10px, hsl(var(--primary) / 0.02) 20px),
+      repeating-linear-gradient(-45deg, transparent, transparent 10px, hsl(var(--accent) / 0.02) 10px, hsl(var(--accent) / 0.02) 20px);
+  }
+
+  /* Ashoka Chakra Pattern */
+  .ashoka-pattern {
+    background-image: radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  /* Micro-animations */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -10px hsl(var(--primary) / 0.3);
+  }
+
+  .saffron-underline {
+    position: relative;
+    display: inline-block;
+  }
+
+  .saffron-underline::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: -4px;
+    left: 0;
+    background: hsl(var(--accent));
+    transition: width 0.3s ease;
+  }
+
+  .saffron-underline:hover::after {
+    width: 100%;
+  }
+
+  /* Mountain ridge divider */
+  .mountain-divider {
+    background: linear-gradient(135deg, transparent 48%, hsl(var(--border)) 48%, hsl(var(--border)) 52%, transparent 52%);
+    background-size: 40px 40px;
+    height: 2px;
   }
 }

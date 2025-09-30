@@ -3,8 +3,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { GraduationCap, Building2, Users, ArrowRight, CheckCircle, Star, Users2 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { GraduationCap, Building2, Users, ArrowRight, CheckCircle, Star, Users2, Cpu, Shield, Cloud, Blocks, BookOpen, Wifi, WifiOff } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
+import { LanguageToggle } from '@/components/LanguageToggle';
+import { AccessibilityToggle } from '@/components/AccessibilityToggle';
 import heroImage from '@/assets/hero-internship.jpg';
 
 const Index = () => {
@@ -26,21 +29,52 @@ const Index = () => {
   const features = [
     {
       icon: Users,
-      title: "For Students",
-      description: "Find and apply for internships that match your skills and career goals.",
-      benefits: ["Browse opportunities", "Track applications", "Build your profile"]
+      title: "Student Dashboard",
+      description: "Discover internship opportunities aligned with your skills and career aspirations.",
+      benefits: ["Browse Verified Opportunities", "Track Application Status", "Build Professional Profile"],
+      color: "sky"
     },
     {
       icon: Building2,
-      title: "For Companies",
-      description: "Post internships and find talented students for your organization.",
-      benefits: ["Post opportunities", "Manage applications", "Verify credentials"]
+      title: "Industry Connect",
+      description: "Connect with talented students and post verified internship opportunities.",
+      benefits: ["Post Opportunities", "Manage Applications", "Blockchain Verification"],
+      color: "success"
     },
     {
       icon: GraduationCap,
-      title: "For Colleges",
-      description: "Manage student internships and partner with industry leaders.",
-      benefits: ["Oversee programs", "Track placements", "Ensure quality"]
+      title: "Faculty Mentorship",
+      description: "Oversee student internships and collaborate with industry partners.",
+      benefits: ["Monitor Progress", "Track Placements", "Quality Assurance"],
+      color: "warning"
+    }
+  ];
+
+  const techFeatures = [
+    {
+      icon: Cpu,
+      title: "Agentic AI",
+      description: "Smart internship matching and career guidance"
+    },
+    {
+      icon: Blocks,
+      title: "Blockchain Verified",
+      description: "Secure credential verification system"
+    },
+    {
+      icon: Cloud,
+      title: "Cloud Native",
+      description: "Scalable and reliable infrastructure"
+    },
+    {
+      icon: Shield,
+      title: "Cybersecurity",
+      description: "Enterprise-grade data protection"
+    },
+    {
+      icon: BookOpen,
+      title: "NEP Aligned",
+      description: "Following National Education Policy standards"
     }
   ];
 
@@ -53,12 +87,29 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section - Kashmir Sky Gradient */}
-      <div className="relative overflow-hidden bg-gradient-hero">
+      {/* Accessibility & Language Bar */}
+      <div className="bg-secondary border-b border-border">
+        <div className="container mx-auto px-4 py-2 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="gap-1 border-success text-success">
+              <WifiOff className="w-3 h-3" />
+              <span className="text-xs">Offline Mode Available</span>
+            </Badge>
+          </div>
+          <div className="flex items-center gap-2">
+            <AccessibilityToggle />
+            <LanguageToggle />
+          </div>
+        </div>
+      </div>
+
+      {/* Hero Section - Kashmir Sky Gradient with Patterns */}
+      <div className="relative overflow-hidden bg-gradient-hero jali-pattern">
+        <div className="absolute inset-0 ashoka-pattern opacity-50"></div>
         <div className="absolute inset-0">
           <img 
             src={heroImage} 
-            alt="Students and professionals connecting through internships" 
+            alt="Students and professionals connecting through internships in Jammu & Kashmir" 
             className="w-full h-full object-cover opacity-10"
           />
         </div>
@@ -68,37 +119,41 @@ const Index = () => {
             <h1 className="text-5xl md:text-6xl font-bold text-primary mb-4">
               Prashiskshan
             </h1>
-            <div className="w-24 h-1 bg-accent mx-auto mb-8"></div>
-            <p className="text-xl md:text-2xl text-foreground font-semibold mb-6">
-              Connecting Students, Colleges, and Industry
+            <div className="w-24 h-1 bg-accent mx-auto mb-6"></div>
+            <p className="text-2xl md:text-3xl text-primary font-bold mb-4">
+              One Nation, One Internship Platform
+            </p>
+            <div className="w-16 h-1 bg-warning mx-auto mb-8"></div>
+            <p className="text-lg md:text-xl text-foreground font-semibold mb-6">
+              Empowering Jammu & Kashmir's Future Through Industry Integration
             </p>
             <p className="text-base md:text-lg text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
-              A comprehensive platform that bridges the gap between academic learning and industry experience. 
-              Find your perfect internship opportunity or discover talented students for your organization.
+              A comprehensive platform bridging academic excellence and industry opportunities. 
+              Leveraging AI, Blockchain, and Cloud technologies to connect students, educational institutions, and industries across Jammu & Kashmir.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-200 shadow-md font-semibold"
+                className="bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-300 shadow-lg font-semibold hover-lift"
                 onClick={() => window.location.href = '/auth'}
               >
-                Get Started Today
+                Experience Internship Innovation
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-semibold"
+                className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-semibold transition-all duration-300"
                 onClick={() => window.location.href = '/auth'}
               >
-                Learn More
+                Explore Platform
               </Button>
             </div>
           </div>
         </div>
         
-        {/* Wavy Divider */}
+        {/* Mountain Ridge Divider */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" className="w-full">
             <path fill="#ffffff" fillOpacity="1" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,58.7C960,64,1056,64,1152,58.7C1248,53,1344,43,1392,37.3L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
@@ -131,25 +186,28 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-              Built for Everyone
+              Comprehensive Solution for All Stakeholders
             </h2>
             <div className="w-24 h-1 bg-accent mx-auto mb-6"></div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Whether you're a student seeking opportunities, a company looking for talent, 
-              or a college managing programs, we have the right tools for you.
+              Designed to serve students, educational institutions, and industry partners 
+              with equal focus on accessibility and innovation.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
             {features.map((feature, index) => {
               const Icon = feature.icon;
+              const colorClass = feature.color === 'sky' ? 'text-sky border-sky/30 bg-sky/10' : 
+                                feature.color === 'success' ? 'text-success border-success/30 bg-success/10' : 
+                                'text-warning border-warning/30 bg-warning/10';
               return (
-                <Card key={index} className="hover:shadow-card transition-all duration-300 border-2 border-border hover:border-accent rounded-xl bg-card">
+                <Card key={index} className="hover-lift transition-all duration-300 border-2 border-border hover:border-accent rounded-xl bg-card">
                   <CardContent className="p-8 text-center">
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-accent/10 rounded-xl mb-6 border-2 border-accent/30">
-                      <Icon className="w-10 h-10 text-accent" />
+                    <div className={`inline-flex items-center justify-center w-20 h-20 rounded-xl mb-6 border-2 ${colorClass}`}>
+                      <Icon className="w-10 h-10" />
                     </div>
-                    <h3 className="text-xl font-bold text-primary mb-4">{feature.title}</h3>
+                    <h3 className="text-xl font-bold text-primary mb-4 saffron-underline inline-block">{feature.title}</h3>
                     <p className="text-muted-foreground mb-6 leading-relaxed">{feature.description}</p>
                     <ul className="space-y-3">
                       {feature.benefits.map((benefit, idx) => (
@@ -164,8 +222,36 @@ const Index = () => {
               );
             })}
           </div>
+
+          {/* Technology Features */}
+          <div className="text-center mb-12">
+            <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
+              Powered by Cutting-Edge Technology
+            </h3>
+            <div className="w-20 h-1 bg-accent mx-auto mb-6"></div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            {techFeatures.map((tech, index) => {
+              const Icon = tech.icon;
+              return (
+                <Card key={index} className="hover-lift transition-all duration-300 border border-border bg-card/50">
+                  <CardContent className="p-6 text-center">
+                    <div className="inline-flex items-center justify-center w-14 h-14 bg-accent/10 rounded-lg mb-3 border border-accent/20">
+                      <Icon className="w-7 h-7 text-accent" />
+                    </div>
+                    <h4 className="text-sm font-bold text-primary mb-2">{tech.title}</h4>
+                    <p className="text-xs text-muted-foreground">{tech.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </div>
       </div>
+
+      {/* Mountain Ridge Divider */}
+      <div className="mountain-divider"></div>
 
       {/* CTA Section */}
       <div className="relative py-20 bg-gradient-primary overflow-hidden">

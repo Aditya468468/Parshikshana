@@ -48,6 +48,14 @@ export default {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
+        tertiary: {
+          DEFAULT: "hsl(var(--tertiary))",
+          foreground: "hsl(var(--tertiary-foreground))",
+        },
+        sky: {
+          DEFAULT: "hsl(var(--sky))",
+          foreground: "hsl(var(--sky-foreground))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -71,12 +79,16 @@ export default {
         "gradient-primary": "var(--gradient-primary)",
         "gradient-secondary": "var(--gradient-secondary)",
         "gradient-accent": "var(--gradient-accent)",
+        "gradient-hero": "var(--gradient-hero)",
       },
       boxShadow: {
         sm: "var(--shadow-sm)",
         md: "var(--shadow-md)",
         lg: "var(--shadow-lg)",
-        "blue-glow": "var(--shadow-blue)",
+        card: "var(--shadow-card)",
+      },
+      fontFamily: {
+        sans: ['Noto Sans', 'sans-serif'],
       },
       transitionProperty: {
         smooth: "var(--transition-smooth)",

@@ -17,7 +17,14 @@ import {
   MessageSquare,
   CheckCircle,
   Bell,
-  GraduationCap
+  GraduationCap,
+  Brain,
+  Download,
+  Clock,
+  XCircle,
+  Sparkles,
+  BarChart3,
+  Mail
 } from 'lucide-react';
 import Sidebar from '@/components/layout/Sidebar';
 
@@ -161,56 +168,209 @@ export default function CollegeDashboard() {
             </div>
           </div>
 
+          {/* Student Placement Tracking */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Brain className="w-5 h-5 text-accent" />
+                Student Placement Tracking
+                <Badge className="bg-accent/20 text-accent border-0 ml-2">AI-Powered</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <p className="text-2xl font-bold text-primary">87%</p>
+                    <p className="text-sm text-muted-foreground">Placement Rate</p>
+                  </div>
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <p className="text-2xl font-bold text-accent">₹15,000</p>
+                    <p className="text-sm text-muted-foreground">Avg Stipend</p>
+                  </div>
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <p className="text-2xl font-bold text-success">12</p>
+                    <p className="text-sm text-muted-foreground">Sectors Covered</p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-3">
+                  <Button variant="outline" className="gap-2">
+                    <Download className="w-4 h-4" />
+                    NAAC Report (PDF)
+                  </Button>
+                  <Button variant="outline" className="gap-2">
+                    <Download className="w-4 h-4" />
+                    AICTE Report (Excel)
+                  </Button>
+                  <Button variant="outline" className="gap-2">
+                    <Download className="w-4 h-4" />
+                    UGC Compliance
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">✨ AI auto-generates govt-approved reports from student logs</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Internship Approval Workflow */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-primary" />
+                Internship Approval Workflow
+                <Badge className="bg-yellow-100 text-yellow-800 ml-2">3 Pending</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {[
+                  {
+                    student: "Rahul Kumar",
+                    company: "Tech Solutions Pvt Ltd",
+                    position: "Software Development Intern",
+                    match: 92,
+                    status: "pending"
+                  },
+                  {
+                    student: "Anjali Singh",
+                    company: "DataTech Analytics",
+                    position: "Data Science Intern",
+                    match: 88,
+                    status: "pending"
+                  },
+                  {
+                    student: "Vikram Patel",
+                    company: "Cloud Innovations",
+                    position: "Cloud Engineering Intern",
+                    match: 85,
+                    status: "pending"
+                  }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-1">
+                        <h4 className="font-semibold text-sm">{item.student}</h4>
+                        <Badge className="bg-accent/20 text-accent border-0 text-xs">
+                          <Sparkles className="w-3 h-3 mr-1" />
+                          AI: {item.match}% curriculum match
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground">{item.position} at {item.company}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" className="gap-1">
+                        <XCircle className="w-3 h-3" />
+                        Reject
+                      </Button>
+                      <Button size="sm" className="bg-success text-white hover:bg-success/90 gap-1">
+                        <CheckCircle className="w-3 h-3" />
+                        Approve
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Student Management */}
+            {/* Performance Analytics */}
             <Card>
               <CardHeader>
-                <CardTitle>Student Management</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="w-5 h-5 text-primary" />
+                  Performance Analytics
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
-                    <Users className="w-5 h-5 text-primary" />
-                    <span className="text-sm">View student profiles</span>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span>Students with Active Internships</span>
+                        <span className="font-bold">40/150</span>
+                      </div>
+                      <div className="h-2 bg-muted rounded-full overflow-hidden">
+                        <div className="h-full bg-primary" style={{ width: '26.6%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span>Completed Internships (This Semester)</span>
+                        <span className="font-bold">120/150</span>
+                      </div>
+                      <div className="h-2 bg-muted rounded-full overflow-hidden">
+                        <div className="h-full bg-success" style={{ width: '80%' }}></div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
-                    <FileText className="w-5 h-5 text-primary" />
-                    <span className="text-sm">Internship applications tracking</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
-                    <TrendingUp className="w-5 h-5 text-primary" />
-                    <span className="text-sm">Performance reports (AI-generated)</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
-                    <BookOpen className="w-5 h-5 text-primary" />
-                    <span className="text-sm">Auto-generated logbooks & certificates</span>
+                  
+                  <div className="pt-4 border-t">
+                    <h4 className="text-sm font-semibold mb-3">Top Performing Departments</h4>
+                    <div className="space-y-2 text-xs">
+                      <div className="flex justify-between">
+                        <span>Computer Science</span>
+                        <span className="font-medium">95% placement</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Electronics & Comm</span>
+                        <span className="font-medium">88% placement</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Mechanical</span>
+                        <span className="font-medium">82% placement</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Company/Internship Management */}
+            {/* Smart Alerts & Notifications */}
             <Card>
               <CardHeader>
-                <CardTitle>Company/Internship Management</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Mail className="w-5 h-5 text-primary" />
+                  Smart Alerts & Notifications
+                  <Badge className="bg-accent/20 text-accent border-0 ml-2">AI</Badge>
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
-                    <Shield className="w-5 h-5 text-primary" />
-                    <span className="text-sm">Verify companies via Blockchain</span>
+              <CardContent className="space-y-3">
+                <div className="p-3 bg-blue-50 border-l-4 border-primary rounded">
+                  <div className="flex items-start gap-2">
+                    <Clock className="w-4 h-4 text-primary mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-xs font-medium">Pending Approvals</p>
+                      <p className="text-xs text-muted-foreground">3 internship applications need review</p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
-                    <CheckCircle className="w-5 h-5 text-primary" />
-                    <span className="text-sm">Approve/reject internship postings</span>
+                </div>
+                
+                <div className="p-3 bg-orange-50 border-l-4 border-orange-500 rounded">
+                  <div className="flex items-start gap-2">
+                    <AlertTriangle className="w-4 h-4 text-orange-500 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-xs font-medium">Expiring Soon</p>
+                      <p className="text-xs text-muted-foreground">5 internships ending this week</p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
-                    <AlertTriangle className="w-5 h-5 text-orange-500" />
-                    <span className="text-sm">See fraud detection alerts</span>
+                </div>
+                
+                <div className="p-3 bg-purple-50 border-l-4 border-purple-500 rounded">
+                  <div className="flex items-start gap-2">
+                    <Award className="w-4 h-4 text-purple-500 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-xs font-medium">Compliance Reminder</p>
+                      <p className="text-xs text-muted-foreground">AICTE report due in 7 days</p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 hover:bg-muted/50 rounded-lg cursor-pointer">
-                    <Users className="w-5 h-5 text-primary" />
-                    <span className="text-sm">Track which students joined which company</span>
+                </div>
+
+                <div className="pt-3 border-t">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Mail className="w-3 h-3" />
+                    <span>Weekly summary auto-mailed to placement head</span>
                   </div>
                 </div>
               </CardContent>

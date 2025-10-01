@@ -15,7 +15,15 @@ import {
   Eye,
   MessageSquare,
   Plus,
-  Bell
+  Bell,
+  Brain,
+  FileSignature,
+  Calendar,
+  BarChart3,
+  Download,
+  Sparkles,
+  Shield,
+  Target
 } from 'lucide-react';
 import Sidebar from '@/components/layout/Sidebar';
 
@@ -161,7 +169,7 @@ export default function CompanyDashboard() {
           {/* Summary Stats */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Summary</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
@@ -185,44 +193,92 @@ export default function CompanyDashboard() {
                   </div>
                 </CardContent>
               </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-3xl font-bold">12</p>
+                      <p className="text-sm text-muted-foreground">Interviews Scheduled</p>
+                    </div>
+                    <Calendar className="w-8 h-8 text-primary" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-3xl font-bold">92%</p>
+                      <p className="text-sm text-muted-foreground">Diversity Score</p>
+                    </div>
+                    <Shield className="w-8 h-8 text-success" />
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
 
-          {/* Internship Applications */}
+          {/* Smart Talent Matching */}
           <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Internship Applications</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold flex items-center gap-2">
+                <Brain className="w-5 h-5 text-accent" />
+                Smart Talent Matching
+                <Badge className="bg-accent/20 text-accent border-accent ml-2">Powered by AI</Badge>
+              </h2>
+              <Button size="sm" variant="outline">View All</Button>
+            </div>
             <Card>
               <CardContent className="p-6">
                 <div className="space-y-4">
                   {[
                     {
-                      title: "Web Development Intern",
+                      title: "Machine Learning Intern",
                       applicant: "Priya Sharma",
-                      date: "April 15",
-                      status: "pending"
+                      course: "B.Tech CSE (AI/ML)",
+                      skills: ["Python", "TensorFlow", "Data Science"],
+                      match: 94
                     },
                     {
-                      title: "Software Engineering Intern",
+                      title: "Full Stack Developer Intern",
                       applicant: "Arjun Patel",
-                      date: "April 18", 
-                      status: "accepted"
+                      course: "B.Tech CSE",
+                      skills: ["React", "Node.js", "MongoDB"],
+                      match: 89
                     },
                     {
-                      title: "Data Science Intern",
+                      title: "Cloud Engineering Intern",
                       applicant: "Sneha Gupta",
-                      date: "April 18",
-                      status: "pending"
+                      course: "B.Tech IT",
+                      skills: ["AWS", "Docker", "Kubernetes"],
+                      match: 87
                     }
                   ].map((application, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg">
+                    <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg hover:shadow-md transition-shadow">
                       <div className="flex-1">
-                        <h4 className="font-semibold">{application.title}</h4>
-                        <p className="text-sm text-muted-foreground">{application.applicant}</p>
+                        <div className="flex items-center gap-3 mb-2">
+                          <h4 className="font-semibold">{application.applicant}</h4>
+                          <Badge className="bg-accent/20 text-accent border-0">
+                            <Target className="w-3 h-3 mr-1" />
+                            {application.match}% Match
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-1">{application.title}</p>
+                        <p className="text-xs text-muted-foreground mb-2">{application.course}</p>
+                        <div className="flex gap-2 flex-wrap">
+                          {application.skills.map((skill, idx) => (
+                            <Badge key={idx} variant="outline" className="text-xs">{skill}</Badge>
+                          ))}
+                        </div>
                       </div>
-                      <div className="flex items-center gap-4">
-                        <span className="text-sm text-muted-foreground">{application.date}</span>
-                        <Button size="sm" variant="outline" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                          View
+                      <div className="flex items-center gap-2 ml-4">
+                        <Button size="sm" variant="outline">
+                          View Profile
+                        </Button>
+                        <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                          Schedule Interview
                         </Button>
                       </div>
                     </div>
@@ -232,28 +288,153 @@ export default function CompanyDashboard() {
             </Card>
           </div>
 
-          {/* Recent Activity */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
+          {/* Internship Lifecycle Management */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             <Card>
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm">New application from Priya Sharma</span>
-                    </div>
-                    <span className="text-xs text-muted-foreground">April 15</span>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileSignature className="w-5 h-5 text-primary" />
+                  Internship Lifecycle Management
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button variant="outline" className="w-full justify-start gap-3">
+                  <Download className="w-4 h-4" />
+                  <div className="text-left flex-1">
+                    <p className="text-sm font-medium">Generate MoU & Agreements</p>
+                    <p className="text-xs text-muted-foreground">Govt standard format (PDF)</p>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm">Interview scheduled with Arjun Patel</span>
-                    </div>
-                    <span className="text-xs text-muted-foreground">April 18</span>
+                </Button>
+                <Button variant="outline" className="w-full justify-start gap-3">
+                  <FileText className="w-4 h-4" />
+                  <div className="text-left flex-1">
+                    <p className="text-sm font-medium">Compliance-Ready Offer Letters</p>
+                    <p className="text-xs text-muted-foreground">Auto-generated templates</p>
                   </div>
+                </Button>
+                <Button variant="outline" className="w-full justify-start gap-3">
+                  <CheckCircle className="w-4 h-4" />
+                  <div className="text-left flex-1">
+                    <p className="text-sm font-medium">Completion Certificates</p>
+                    <p className="text-xs text-muted-foreground">NEP compliant format</p>
+                  </div>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-primary" />
+                  AI-Powered Interview Scheduling
+                  <Badge className="bg-accent/20 text-accent border-0 ml-2">AI</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="p-3 bg-muted/50 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm font-medium">Priya Sharma - ML Intern</p>
+                    <Badge className="bg-green-100 text-green-800">Confirmed</Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Tomorrow, 2:00 PM - 3:00 PM</p>
+                  <p className="text-xs text-accent mt-1">✨ AI-suggested optimal time</p>
                 </div>
+                <div className="p-3 bg-muted/50 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm font-medium">Arjun Patel - Full Stack</p>
+                    <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground">April 25, 11:00 AM - 12:00 PM</p>
+                  <p className="text-xs text-accent mt-1">✨ Smart reminder sent</p>
+                </div>
+                <Button size="sm" variant="outline" className="w-full">
+                  View All Schedules
+                </Button>
               </CardContent>
             </Card>
           </div>
+
+          {/* Diversity & Fairness Tracker */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-primary" />
+                Diversity & Fairness Tracker
+                <Badge className="bg-success/20 text-success border-0 ml-2">AICTE/UGC Compliant</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-3">
+                  <h4 className="text-sm font-semibold">Gender Distribution</h4>
+                  <div className="space-y-2">
+                    <div>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span>Male</span>
+                        <span>45%</span>
+                      </div>
+                      <div className="h-2 bg-muted rounded-full overflow-hidden">
+                        <div className="h-full bg-primary" style={{ width: '45%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span>Female</span>
+                        <span>50%</span>
+                      </div>
+                      <div className="h-2 bg-muted rounded-full overflow-hidden">
+                        <div className="h-full bg-accent" style={{ width: '50%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span>Other</span>
+                        <span>5%</span>
+                      </div>
+                      <div className="h-2 bg-muted rounded-full overflow-hidden">
+                        <div className="h-full bg-success" style={{ width: '5%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <h4 className="text-sm font-semibold">Regional Diversity</h4>
+                  <div className="space-y-2 text-xs">
+                    <div className="flex justify-between">
+                      <span>North India</span>
+                      <span className="font-medium">35%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>South India</span>
+                      <span className="font-medium">30%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>East India</span>
+                      <span className="font-medium">20%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>West India</span>
+                      <span className="font-medium">15%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-semibold">Export Reports</h4>
+                  <Button size="sm" variant="outline" className="w-full gap-2">
+                    <Download className="w-4 h-4" />
+                    Download AICTE Format
+                  </Button>
+                  <Button size="sm" variant="outline" className="w-full gap-2">
+                    <Download className="w-4 h-4" />
+                    Download UGC Format
+                  </Button>
+                  <p className="text-xs text-muted-foreground">✓ AI ensures fair selection</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Feedback Section */}
           <Card>

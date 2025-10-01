@@ -19,7 +19,7 @@ import {
   Menu,
   X
 } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface SidebarProps {
   className?: string;
@@ -28,7 +28,9 @@ interface SidebarProps {
 export default function Sidebar({ className }: SidebarProps) {
   const { profile, signOut } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const getNavigationItems = () => {
     switch (profile?.role) {
@@ -135,12 +137,14 @@ export default function Sidebar({ className }: SidebarProps) {
             isCollapsed && "px-3 justify-center"
           )}
           onClick={async () => {
+            setIsSigningOut(true);
             await signOut();
-            window.location.href = '/';
+            navigate('/auth');
           }}
+          disabled={isSigningOut}
         >
           <LogOut className="w-4 h-4" />
-          {!isCollapsed && "Sign Out"}
+          {!isCollapsed && (isSigningOut ? "Signing Out..." : "Sign Out")}
         </Button>
       </div>
     </div>

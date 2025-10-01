@@ -113,11 +113,11 @@ export default function CompanyDashboard() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'pending':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Pending</Badge>;
+        return <Badge variant="secondary" className="bg-warning/10 text-warning border-warning/20">Pending</Badge>;
       case 'accepted':
-        return <Badge variant="secondary" className="bg-green-100 text-green-800">Accepted</Badge>;
+        return <Badge variant="secondary" className="bg-success/10 text-success border-success/20">Accepted</Badge>;
       case 'rejected':
-        return <Badge variant="secondary" className="bg-red-100 text-red-800">Rejected</Badge>;
+        return <Badge variant="secondary" className="bg-destructive/10 text-destructive border-destructive/20">Rejected</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -334,7 +334,7 @@ export default function CompanyDashboard() {
                 <div className="p-3 bg-muted/50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-sm font-medium">Priya Sharma - ML Intern</p>
-                    <Badge className="bg-green-100 text-green-800">Confirmed</Badge>
+                    <Badge className="bg-success/10 text-success border-success/20">Confirmed</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground">Tomorrow, 2:00 PM - 3:00 PM</p>
                   <p className="text-xs text-accent mt-1">✨ AI-suggested optimal time</p>
@@ -342,7 +342,7 @@ export default function CompanyDashboard() {
                 <div className="p-3 bg-muted/50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-sm font-medium">Arjun Patel - Full Stack</p>
-                    <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>
+                    <Badge className="bg-warning/10 text-warning border-warning/20">Pending</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground">April 25, 11:00 AM - 12:00 PM</p>
                   <p className="text-xs text-accent mt-1">✨ Smart reminder sent</p>

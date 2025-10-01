@@ -219,7 +219,7 @@ export default function CollegeDashboard() {
               <CardTitle className="flex items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-primary" />
                 Internship Approval Workflow
-                <Badge className="bg-yellow-100 text-yellow-800 ml-2">3 Pending</Badge>
+                <Badge className="bg-warning/10 text-warning border-warning/20 ml-2">3 Pending</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -337,7 +337,7 @@ export default function CollegeDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="p-3 bg-blue-50 border-l-4 border-primary rounded">
+                <div className="p-3 bg-primary/10 border-l-4 border-primary rounded">
                   <div className="flex items-start gap-2">
                     <Clock className="w-4 h-4 text-primary mt-0.5" />
                     <div className="flex-1">
@@ -347,9 +347,9 @@ export default function CollegeDashboard() {
                   </div>
                 </div>
                 
-                <div className="p-3 bg-orange-50 border-l-4 border-orange-500 rounded">
+                <div className="p-3 bg-warning/10 border-l-4 border-warning rounded">
                   <div className="flex items-start gap-2">
-                    <AlertTriangle className="w-4 h-4 text-orange-500 mt-0.5" />
+                    <AlertTriangle className="w-4 h-4 text-warning mt-0.5" />
                     <div className="flex-1">
                       <p className="text-xs font-medium">Expiring Soon</p>
                       <p className="text-xs text-muted-foreground">5 internships ending this week</p>
@@ -357,9 +357,9 @@ export default function CollegeDashboard() {
                   </div>
                 </div>
                 
-                <div className="p-3 bg-purple-50 border-l-4 border-purple-500 rounded">
+                <div className="p-3 bg-accent/10 border-l-4 border-accent rounded">
                   <div className="flex items-start gap-2">
-                    <Award className="w-4 h-4 text-purple-500 mt-0.5" />
+                    <Award className="w-4 h-4 text-accent mt-0.5" />
                     <div className="flex-1">
                       <p className="text-xs font-medium">Compliance Reminder</p>
                       <p className="text-xs text-muted-foreground">AICTE report due in 7 days</p>

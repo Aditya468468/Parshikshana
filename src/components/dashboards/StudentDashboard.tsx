@@ -360,7 +360,7 @@ export default function StudentDashboard() {
                         <p className="text-sm font-medium">Report Submission</p>
                         <span className="text-lg font-bold">April 25</span>
                       </div>
-                      <Progress value={75} className="h-3 bg-green-100" />
+                      <Progress value={75} className="h-3" />
                     </div>
                     
                     <div>

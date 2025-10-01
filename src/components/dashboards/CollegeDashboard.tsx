@@ -377,6 +377,88 @@ export default function CollegeDashboard() {
             </Card>
           </div>
 
+          {/* AI-Driven Industry Tie-ups */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-accent" />
+                AI-Driven Industry Tie-ups
+                <Badge className="bg-accent/20 text-accent border-0 ml-2">Powered by Agentic AI</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-6 p-4 bg-primary/10 rounded-lg">
+                <p className="text-sm text-muted-foreground">
+                  <Brain className="w-4 h-4 inline mr-2 text-accent" />
+                  AI analyzes your 300+ AI/ML students' skills, projects, and coursework to recommend ideal industry partnerships
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                {[
+                  {
+                    company: "Infosys AI Labs",
+                    industry: "AI & Machine Learning",
+                    students: 320,
+                    skills: ["AI/ML", "Python", "Deep Learning"],
+                    match: 94,
+                    positions: 25
+                  },
+                  {
+                    company: "TCS Research & Innovation",
+                    industry: "Software & Cloud",
+                    students: 280,
+                    skills: ["Cloud Computing", "DevOps", "Full Stack"],
+                    match: 89,
+                    positions: 20
+                  },
+                  {
+                    company: "Tech Startup Innovators",
+                    industry: "Product Development",
+                    students: 150,
+                    skills: ["React", "Node.js", "Mobile Dev"],
+                    match: 85,
+                    positions: 15
+                  }
+                ].map((tie, index) => (
+                  <div key={index} className="p-4 border border-border rounded-lg hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h4 className="font-semibold">{tie.company}</h4>
+                          <Badge className="bg-accent/20 text-accent border-0">
+                            {tie.match}% Match
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-2">{tie.industry}</p>
+                        <div className="flex gap-2 flex-wrap mb-2">
+                          {tie.skills.map((skill, idx) => (
+                            <Badge key={idx} variant="outline" className="text-xs">{skill}</Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-3 border-t border-border">
+                      <div className="flex gap-4 text-xs text-muted-foreground">
+                        <span>
+                          <Users className="w-3 h-3 inline mr-1" />
+                          {tie.students} matching students
+                        </span>
+                        <span>
+                          <Building2 className="w-3 h-3 inline mr-1" />
+                          {tie.positions} positions available
+                        </span>
+                      </div>
+                      <Button size="sm" variant="outline">
+                        Request MoU
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Analytics & Reports */}
             <div className="lg:col-span-2">

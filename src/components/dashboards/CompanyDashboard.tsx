@@ -436,6 +436,134 @@ export default function CompanyDashboard() {
             </CardContent>
           </Card>
 
+          {/* AI-Suggested Colleges */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-accent" />
+                AI-Suggested Colleges
+                <Badge className="bg-accent/20 text-accent border-0 ml-2">Powered by Agentic AI</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-6 p-4 bg-primary/10 rounded-lg">
+                <p className="text-sm text-muted-foreground">
+                  <Brain className="w-4 h-4 inline mr-2 text-accent" />
+                  AI recommends colleges with students matching your hiring needs (AI Engineers)
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <h4 className="text-sm font-semibold mb-3">Top Recommended Colleges</h4>
+                  <div className="space-y-3">
+                    {[
+                      {
+                        college: "IIT Delhi - Computer Science",
+                        students: 300,
+                        skills: ["AI/ML", "Deep Learning", "Python"],
+                        match: 96,
+                        avgGrade: "8.5 CGPA"
+                      },
+                      {
+                        college: "BITS Pilani - Software Engineering",
+                        students: 250,
+                        skills: ["Machine Learning", "Data Science", "TensorFlow"],
+                        match: 92,
+                        avgGrade: "8.2 CGPA"
+                      },
+                      {
+                        college: "VIT Vellore - AI & Data Science",
+                        students: 200,
+                        skills: ["AI", "Neural Networks", "Computer Vision"],
+                        match: 88,
+                        avgGrade: "8.0 CGPA"
+                      },
+                      {
+                        college: "NIT Trichy - CSE",
+                        students: 180,
+                        skills: ["ML", "Python", "Data Analytics"],
+                        match: 85,
+                        avgGrade: "7.9 CGPA"
+                      }
+                    ].map((college, index) => (
+                      <div key={index} className="p-3 border border-border rounded-lg">
+                        <div className="flex items-center justify-between mb-2">
+                          <h5 className="text-sm font-semibold">{college.college}</h5>
+                          <Badge className="bg-accent/20 text-accent border-0">
+                            {college.match}% Match
+                          </Badge>
+                        </div>
+                        <div className="flex gap-2 flex-wrap mb-2">
+                          {college.skills.map((skill, idx) => (
+                            <Badge key={idx} variant="outline" className="text-xs">{skill}</Badge>
+                          ))}
+                        </div>
+                        <div className="flex justify-between text-xs text-muted-foreground">
+                          <span>
+                            <Users className="w-3 h-3 inline mr-1" />
+                            {college.students} AI/ML students
+                          </span>
+                          <span>Avg: {college.avgGrade}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-semibold mb-3">College Distribution by Match Score</h4>
+                  <div className="space-y-3 mb-6">
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span>90-100% Match (Excellent)</span>
+                        <span className="font-bold">12 colleges</span>
+                      </div>
+                      <div className="h-3 bg-muted rounded-full overflow-hidden">
+                        <div className="h-full bg-success" style={{ width: '40%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span>80-89% Match (Good)</span>
+                        <span className="font-bold">18 colleges</span>
+                      </div>
+                      <div className="h-3 bg-muted rounded-full overflow-hidden">
+                        <div className="h-full bg-primary" style={{ width: '60%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span>70-79% Match (Moderate)</span>
+                        <span className="font-bold">10 colleges</span>
+                      </div>
+                      <div className="h-3 bg-muted rounded-full overflow-hidden">
+                        <div className="h-full bg-warning" style={{ width: '33%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 p-3 bg-muted/50 rounded-lg">
+                    <h5 className="text-sm font-semibold">Total Reach</h5>
+                    <div className="text-2xl font-bold text-primary">1,240+</div>
+                    <p className="text-xs text-muted-foreground">AI-trained students across recommended colleges</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <Button variant="outline" className="gap-2">
+                  <Download className="w-4 h-4" />
+                  Export College List (PDF)
+                </Button>
+                <Button className="bg-accent text-accent-foreground hover:bg-accent/90 gap-2">
+                  <Building2 className="w-4 h-4" />
+                  Initiate Campus Drive
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Feedback Section */}
           <Card>
             <CardHeader>

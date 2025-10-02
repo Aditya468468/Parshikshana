@@ -81,7 +81,7 @@ export default function MentorManagement() {
       if (!user) return;
 
       // Check if this is a demo user
-      if (user.id === 'demo-college_admin') {
+      if (user.id === '11111111-1111-1111-1111-111111111111') {
         // Use demo data for demo users
         setCollegeId('demo-college-id');
         

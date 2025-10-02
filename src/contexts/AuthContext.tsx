@@ -219,9 +219,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const demoLogin = async (email: string, password: string) => {
     const demoAccounts = [
-      { email: 'student@demo.com', password: 'student123', role: 'student', fullName: 'Demo Student' },
-      { email: 'faculty@demo.com', password: 'faculty123', role: 'college_admin', fullName: 'Demo Faculty' },
-      { email: 'industry@demo.com', password: 'industry123', role: 'company', fullName: 'Demo Industry' },
+      { email: 'student@demo.com', password: 'student123', role: 'student', fullName: 'Demo Student', userId: '22222222-2222-2222-2222-222222222222' },
+      { email: 'faculty@demo.com', password: 'faculty123', role: 'college_admin', fullName: 'Demo Faculty', userId: '11111111-1111-1111-1111-111111111111' },
+      { email: 'industry@demo.com', password: 'industry123', role: 'company', fullName: 'Demo Industry', userId: '55555555-5555-5555-5555-555555555555' },
     ];
 
     const account = demoAccounts.find(acc => acc.email === email && acc.password === password);
@@ -235,15 +235,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return { error: new Error('Invalid credentials') };
     }
 
-    // Create mock user and profile
+    // Create mock user and profile with proper UUID
     const mockUser = {
-      id: `demo-${account.role}`,
+      id: account.userId,
       email: account.email,
     } as User;
 
     const mockProfile: Profile = {
-      id: `demo-${account.role}`,
-      user_id: `demo-${account.role}`,
+      id: account.userId,
+      user_id: account.userId,
       email: account.email,
       full_name: account.fullName,
       role: account.role as 'student' | 'college_admin' | 'company',

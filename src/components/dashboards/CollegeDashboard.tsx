@@ -27,6 +27,7 @@ import {
   Mail
 } from 'lucide-react';
 import Sidebar from '@/components/layout/Sidebar';
+import MentorManagement from '@/components/dashboards/MentorManagement';
 
 interface CollegeStats {
   totalStudents: number;
@@ -458,6 +459,9 @@ export default function CollegeDashboard() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Mentor Management Section */}
+          <MentorManagement />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Analytics & Reports */}

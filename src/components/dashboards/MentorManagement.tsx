@@ -80,6 +80,86 @@ export default function MentorManagement() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
+      // Check if this is a demo user
+      if (user.id === 'demo-college_admin') {
+        // Use demo data for demo users
+        setCollegeId('demo-college-id');
+        
+        // Set demo students
+        setStudents([
+          {
+            id: 'demo-student-1',
+            user_id: 'demo-student-1',
+            college_name: 'Demo College',
+            course: 'B.Tech Computer Science',
+            semester: 6,
+            skills: ['Java', 'Python', 'React'],
+            profiles: {
+              full_name: 'Rahul Kumar',
+              email: 'student1@demo.com'
+            }
+          },
+          {
+            id: 'demo-student-2',
+            user_id: 'demo-student-2',
+            college_name: 'Demo College',
+            course: 'B.Tech Information Technology',
+            semester: 4,
+            skills: ['JavaScript', 'Node.js', 'MongoDB'],
+            profiles: {
+              full_name: 'Priya Singh',
+              email: 'student2@demo.com'
+            }
+          },
+          {
+            id: 'demo-student-3',
+            user_id: 'demo-student-3',
+            college_name: 'Demo College',
+            course: 'B.Tech Computer Science',
+            semester: 5,
+            skills: ['C++', 'Data Structures', 'AI/ML'],
+            profiles: {
+              full_name: 'Amit Sharma',
+              email: 'student3@demo.com'
+            }
+          }
+        ]);
+        
+        // Set demo mentors
+        setMentors([
+          {
+            id: 'demo-mentor-1',
+            name: 'Dr. Anjali Verma',
+            email: 'anjali.verma@democollege.edu',
+            specialization: 'AI & Machine Learning',
+            max_students: 15,
+            assigned_students: 0,
+            available_slots: 15
+          },
+          {
+            id: 'demo-mentor-2',
+            name: 'Prof. Rajesh Kumar',
+            email: 'rajesh.kumar@democollege.edu',
+            specialization: 'Web Development',
+            max_students: 12,
+            assigned_students: 0,
+            available_slots: 12
+          },
+          {
+            id: 'demo-mentor-3',
+            name: 'Dr. Meera Patel',
+            email: 'meera.patel@democollege.edu',
+            specialization: 'Data Science',
+            max_students: 10,
+            assigned_students: 0,
+            available_slots: 10
+          }
+        ]);
+        
+        setLoading(false);
+        return;
+      }
+
       const { data: collegeProfile } = await supabase
         .from('college_profiles')
         .select('id, college_name')
@@ -185,6 +265,36 @@ export default function MentorManagement() {
     }
 
     try {
+      // Handle demo users
+      if (collegeId === 'demo-college-id') {
+        const newMentor: Mentor = {
+          id: `demo-mentor-${Date.now()}`,
+          name: mentorForm.name,
+          email: mentorForm.email,
+          specialization: mentorForm.specialization,
+          max_students: mentorForm.max_students,
+          assigned_students: 0,
+          available_slots: mentorForm.max_students
+        };
+        
+        setMentors(prev => [...prev, newMentor]);
+        
+        toast({
+          title: 'Success',
+          description: 'Mentor added successfully (Demo Mode)',
+        });
+
+        setShowAddMentor(false);
+        setMentorForm({
+          name: '',
+          email: '',
+          specialization: '',
+          phone: '',
+          max_students: 10,
+        });
+        return;
+      }
+
       const { error } = await supabase
         .from('mentors')
         .insert({
@@ -237,6 +347,38 @@ export default function MentorManagement() {
       
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
+
+      // Handle demo users
+      if (collegeId === 'demo-college-id') {
+        // Update students array with assignment
+        setStudents(prev => prev.map(student => {
+          if (student.id === studentId) {
+            const mentor = mentors.find(m => m.id === mentorId);
+            return {
+              ...student,
+              mentor_assignments: [{
+                id: `demo-assignment-${Date.now()}`,
+                mentor_id: mentorId,
+                status: 'active',
+                mentors: {
+                  name: mentor?.name || 'Unknown'
+                }
+              }]
+            };
+          }
+          return student;
+        }));
+
+        toast({
+          title: 'Success',
+          description: 'Mentor assigned successfully (Demo Mode)',
+        });
+
+        setSelectedStudent('');
+        setSelectedMentor('');
+        setIsAssigning(false);
+        return;
+      }
 
       // Check if assignment already exists
       const { data: existing } = await supabase

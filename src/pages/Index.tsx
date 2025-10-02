@@ -110,7 +110,7 @@ const Index = () => {
         <div className="absolute inset-0">
           <img 
             src={heroImage} 
-            alt="Students and professionals connecting through internships in Jammu & Kashmir" 
+            alt="Students and professionals connecting through internships in India" 
             className="w-full h-full object-cover opacity-10"
           />
         </div>
@@ -126,11 +126,11 @@ const Index = () => {
             </p>
             <div className="w-16 h-1 bg-warning mx-auto mb-8"></div>
             <p className="text-lg md:text-xl text-foreground font-semibold mb-6">
-              Empowering Jammu & Kashmir's Future Through Industry Integration
+              Empowering India's Future Through Industry Integration
             </p>
             <p className="text-base md:text-lg text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
               A comprehensive platform bridging academic excellence and industry opportunities. 
-              Leveraging AI, Blockchain, and Cloud technologies to connect students, educational institutions, and industries across Jammu & Kashmir.
+              Leveraging AI, Blockchain, and Cloud technologies to connect students, educational institutions, and industries across India.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -205,14 +205,14 @@ const Index = () => {
               return (
                 <Card key={index} className="hover-lift transition-all duration-300 border-2 border-border hover:border-accent rounded-xl bg-card">
                   <CardContent className="p-8 text-center">
-                    <div className={`inline-flex items-center justify-center w-20 h-20 rounded-xl mb-6 border-2 ${colorClass}`}>
+                    <div className={`inline-flex items-center justify-center w-20 h-20 rounded-xl mb-8 border-2 ${colorClass}`}>
                       <Icon className="w-10 h-10" />
                     </div>
                     <h3 className="text-xl font-bold text-primary mb-4 saffron-underline inline-block">{feature.title}</h3>
-                    <p className="text-muted-foreground mb-6 leading-relaxed">{feature.description}</p>
-                    <ul className="space-y-3">
+                    <p className="text-muted-foreground mb-8 leading-relaxed">{feature.description}</p>
+                    <ul className="space-y-4">
                       {feature.benefits.map((benefit, idx) => (
-                        <li key={idx} className="flex items-center justify-center gap-2 text-sm text-foreground">
+                        <li key={idx} className="flex items-center justify-center gap-3 text-sm text-foreground">
                           <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
                           <span className="font-medium">{benefit}</span>
                         </li>

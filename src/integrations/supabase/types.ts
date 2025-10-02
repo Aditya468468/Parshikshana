@@ -187,6 +187,102 @@ export type Database = {
           },
         ]
       }
+      mentor_assignments: {
+        Row: {
+          assigned_at: string
+          assigned_by: string
+          id: string
+          mentor_id: string
+          status: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_at?: string
+          assigned_by: string
+          id?: string
+          mentor_id: string
+          status?: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_at?: string
+          assigned_by?: string
+          id?: string
+          mentor_id?: string
+          status?: string
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mentor_assignments_mentor_id_fkey"
+            columns: ["mentor_id"]
+            isOneToOne: false
+            referencedRelation: "mentor_workload"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mentor_assignments_mentor_id_fkey"
+            columns: ["mentor_id"]
+            isOneToOne: false
+            referencedRelation: "mentors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mentor_assignments_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "student_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mentors: {
+        Row: {
+          college_id: string
+          created_at: string
+          email: string
+          id: string
+          max_students: number | null
+          name: string
+          phone: string | null
+          specialization: string | null
+          updated_at: string
+        }
+        Insert: {
+          college_id: string
+          created_at?: string
+          email: string
+          id?: string
+          max_students?: number | null
+          name: string
+          phone?: string | null
+          specialization?: string | null
+          updated_at?: string
+        }
+        Update: {
+          college_id?: string
+          created_at?: string
+          email?: string
+          id?: string
+          max_students?: number | null
+          name?: string
+          phone?: string | null
+          specialization?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mentors_college_id_fkey"
+            columns: ["college_id"]
+            isOneToOne: false
+            referencedRelation: "college_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           created_at: string
@@ -288,7 +384,18 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      mentor_workload: {
+        Row: {
+          assigned_students: number | null
+          available_slots: number | null
+          email: string | null
+          id: string | null
+          max_students: number | null
+          name: string | null
+          specialization: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

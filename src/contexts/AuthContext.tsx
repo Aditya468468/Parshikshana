@@ -23,6 +23,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   updateProfile: (updates: Partial<Profile>) => Promise<{ error: any }>;
+  demoLogin: (email: string, password: string) => Promise<{ error: any; role?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -216,6 +217,52 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const demoLogin = async (email: string, password: string) => {
+    const demoAccounts = [
+      { email: 'student@demo.com', password: 'student123', role: 'student', fullName: 'Demo Student' },
+      { email: 'faculty@demo.com', password: 'faculty123', role: 'college_admin', fullName: 'Demo Faculty' },
+      { email: 'industry@demo.com', password: 'industry123', role: 'company', fullName: 'Demo Industry' },
+    ];
+
+    const account = demoAccounts.find(acc => acc.email === email && acc.password === password);
+
+    if (!account) {
+      toast({
+        title: "Invalid Credentials",
+        description: "Please use demo accounts: student@demo.com, faculty@demo.com, or industry@demo.com",
+        variant: "destructive",
+      });
+      return { error: new Error('Invalid credentials') };
+    }
+
+    // Create mock user and profile
+    const mockUser = {
+      id: `demo-${account.role}`,
+      email: account.email,
+    } as User;
+
+    const mockProfile: Profile = {
+      id: `demo-${account.role}`,
+      user_id: `demo-${account.role}`,
+      email: account.email,
+      full_name: account.fullName,
+      role: account.role as 'student' | 'college_admin' | 'company',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    setUser(mockUser);
+    setProfile(mockProfile);
+    setSession({ user: mockUser } as Session);
+
+    toast({
+      title: "Welcome!",
+      description: `Logged in as ${account.fullName}`,
+    });
+
+    return { error: null, role: account.role };
+  };
+
   const value = {
     user,
     profile,
@@ -225,6 +272,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signIn,
     signOut,
     updateProfile,
+    demoLogin,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

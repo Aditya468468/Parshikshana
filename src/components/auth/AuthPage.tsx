@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -38,8 +38,9 @@ const roleOptions = [
 ];
 
 export default function AuthPage() {
-  const { user, loading, signIn, signUp } = useAuth();
+  const { user, loading, demoLogin } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const signInForm = useForm<SignInForm>({
     resolver: zodResolver(signInSchema),
@@ -74,14 +75,19 @@ export default function AuthPage() {
 
   const onSignIn = async (data: SignInForm) => {
     setIsSubmitting(true);
-    await signIn(data.email, data.password);
+    const { error, role } = await demoLogin(data.email, data.password);
     setIsSubmitting(false);
-  };
-
-  const onSignUp = async (data: SignUpForm) => {
-    setIsSubmitting(true);
-    await signUp(data.email, data.password, data.fullName, data.role);
-    setIsSubmitting(false);
+    
+    if (!error && role) {
+      // Redirect based on role
+      if (role === 'student') {
+        navigate('/student-dashboard');
+      } else if (role === 'college_admin') {
+        navigate('/faculty-dashboard');
+      } else if (role === 'company') {
+        navigate('/industry-dashboard');
+      }
+    }
   };
 
   return (
@@ -163,105 +169,33 @@ export default function AuthPage() {
                         'Sign In'
                       )}
                     </Button>
+                    
+                    <div className="mt-4 p-3 bg-primary/5 border border-primary/20 rounded-md">
+                      <p className="text-sm font-medium text-foreground mb-2">Demo Login – Use Sample Accounts:</p>
+                      <div className="space-y-1 text-xs text-muted-foreground">
+                        <p>• Student: student@demo.com / student123</p>
+                        <p>• Faculty: faculty@demo.com / faculty123</p>
+                        <p>• Industry: industry@demo.com / industry123</p>
+                      </div>
+                    </div>
                   </form>
                 </Form>
               </TabsContent>
 
               <TabsContent value="signup">
-                <Form {...signUpForm}>
-                  <form onSubmit={signUpForm.handleSubmit(onSignUp)} className="space-y-4">
-                    <FormField
-                      control={signUpForm.control}
-                      name="fullName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Full Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter your full name" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={signUpForm.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter your email" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={signUpForm.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Password</FormLabel>
-                          <FormControl>
-                            <Input type="password" placeholder="Create a password" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={signUpForm.control}
-                      name="role"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>I am a...</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select your role" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {roleOptions.map((role) => {
-                                const Icon = role.icon;
-                                return (
-                                  <SelectItem key={role.value} value={role.value}>
-                                    <div className="flex items-center gap-2">
-                                      <Icon className="w-4 h-4 text-primary" />
-                                      <div>
-                                        <div className="font-medium">{role.label}</div>
-                                        <div className="text-xs text-muted-foreground">{role.description}</div>
-                                      </div>
-                                    </div>
-                                  </SelectItem>
-                                );
-                              })}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-primary hover:opacity-90 transition-all duration-200"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Creating account...
-                        </>
-                      ) : (
-                        'Create Account'
-                      )}
-                    </Button>
-                  </form>
-                </Form>
+                <div className="p-6 text-center">
+                  <p className="text-muted-foreground mb-4">
+                    Sign up is disabled in demo mode. Please use one of the demo accounts to explore the platform.
+                  </p>
+                  <div className="p-4 bg-primary/5 border border-primary/20 rounded-md text-left">
+                    <p className="text-sm font-medium text-foreground mb-2">Available Demo Accounts:</p>
+                    <div className="space-y-1 text-xs text-muted-foreground">
+                      <p>• Student: student@demo.com / student123</p>
+                      <p>• Faculty: faculty@demo.com / faculty123</p>
+                      <p>• Industry: industry@demo.com / industry123</p>
+                    </div>
+                  </div>
+                </div>
               </TabsContent>
             </Tabs>
           </CardContent>

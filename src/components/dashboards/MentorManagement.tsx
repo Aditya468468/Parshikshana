@@ -96,7 +96,7 @@ export default function MentorManagement() {
             skills: ['Java', 'Python', 'React'],
             profiles: {
               full_name: 'Rahul Kumar',
-              email: 'student1@demo.com'
+              email: 'rahul.kumar@democollege.edu'
             }
           },
           {
@@ -108,7 +108,7 @@ export default function MentorManagement() {
             skills: ['JavaScript', 'Node.js', 'MongoDB'],
             profiles: {
               full_name: 'Priya Singh',
-              email: 'student2@demo.com'
+              email: 'priya.singh@democollege.edu'
             }
           },
           {
@@ -120,7 +120,67 @@ export default function MentorManagement() {
             skills: ['C++', 'Data Structures', 'AI/ML'],
             profiles: {
               full_name: 'Amit Sharma',
-              email: 'student3@demo.com'
+              email: 'amit.sharma@democollege.edu'
+            }
+          },
+          {
+            id: 'demo-student-4',
+            user_id: 'demo-student-4',
+            college_name: 'Demo College',
+            course: 'B.Tech Electronics',
+            semester: 3,
+            skills: ['IoT', 'Arduino', 'Embedded Systems'],
+            profiles: {
+              full_name: 'Sneha Patel',
+              email: 'sneha.patel@democollege.edu'
+            }
+          },
+          {
+            id: 'demo-student-5',
+            user_id: 'demo-student-5',
+            college_name: 'Demo College',
+            course: 'B.Tech Information Technology',
+            semester: 6,
+            skills: ['Python', 'Django', 'PostgreSQL'],
+            profiles: {
+              full_name: 'Arjun Reddy',
+              email: 'arjun.reddy@democollege.edu'
+            }
+          },
+          {
+            id: 'demo-student-6',
+            user_id: 'demo-student-6',
+            college_name: 'Demo College',
+            course: 'B.Tech Computer Science',
+            semester: 7,
+            skills: ['Flutter', 'Dart', 'Firebase'],
+            profiles: {
+              full_name: 'Kavya Desai',
+              email: 'kavya.desai@democollege.edu'
+            }
+          },
+          {
+            id: 'demo-student-7',
+            user_id: 'demo-student-7',
+            college_name: 'Demo College',
+            course: 'B.Tech Mechanical',
+            semester: 5,
+            skills: ['CAD', 'SolidWorks', 'Automation'],
+            profiles: {
+              full_name: 'Vikram Mehta',
+              email: 'vikram.mehta@democollege.edu'
+            }
+          },
+          {
+            id: 'demo-student-8',
+            user_id: 'demo-student-8',
+            college_name: 'Demo College',
+            course: 'B.Tech Computer Science',
+            semester: 4,
+            skills: ['React Native', 'TypeScript', 'Redux'],
+            profiles: {
+              full_name: 'Ananya Gupta',
+              email: 'ananya.gupta@democollege.edu'
             }
           }
         ]);
@@ -133,8 +193,8 @@ export default function MentorManagement() {
             email: 'anjali.verma@democollege.edu',
             specialization: 'AI & Machine Learning',
             max_students: 15,
-            assigned_students: 0,
-            available_slots: 15
+            assigned_students: 3,
+            available_slots: 12
           },
           {
             id: 'demo-mentor-2',
@@ -142,8 +202,8 @@ export default function MentorManagement() {
             email: 'rajesh.kumar@democollege.edu',
             specialization: 'Web Development',
             max_students: 12,
-            assigned_students: 0,
-            available_slots: 12
+            assigned_students: 2,
+            available_slots: 10
           },
           {
             id: 'demo-mentor-3',
@@ -151,8 +211,53 @@ export default function MentorManagement() {
             email: 'meera.patel@democollege.edu',
             specialization: 'Data Science',
             max_students: 10,
+            assigned_students: 2,
+            available_slots: 8
+          },
+          {
+            id: 'demo-mentor-4',
+            name: 'Prof. Suresh Iyer',
+            email: 'suresh.iyer@democollege.edu',
+            specialization: 'Mobile App Development',
+            max_students: 12,
+            assigned_students: 1,
+            available_slots: 11
+          },
+          {
+            id: 'demo-mentor-5',
+            name: 'Dr. Pooja Nair',
+            email: 'pooja.nair@democollege.edu',
+            specialization: 'Cloud Computing',
+            max_students: 14,
+            assigned_students: 0,
+            available_slots: 14
+          },
+          {
+            id: 'demo-mentor-6',
+            name: 'Prof. Karthik Krishnan',
+            email: 'karthik.krishnan@democollege.edu',
+            specialization: 'Cybersecurity',
+            max_students: 10,
             assigned_students: 0,
             available_slots: 10
+          },
+          {
+            id: 'demo-mentor-7',
+            name: 'Dr. Ritu Malhotra',
+            email: 'ritu.malhotra@democollege.edu',
+            specialization: 'IoT & Embedded Systems',
+            max_students: 11,
+            assigned_students: 1,
+            available_slots: 10
+          },
+          {
+            id: 'demo-mentor-8',
+            name: 'Prof. Anil Agarwal',
+            email: 'anil.agarwal@democollege.edu',
+            specialization: 'Backend Development',
+            max_students: 13,
+            assigned_students: 1,
+            available_slots: 12
           }
         ]);
         

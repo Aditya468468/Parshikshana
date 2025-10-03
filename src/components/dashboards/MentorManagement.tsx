@@ -180,11 +180,11 @@ export default function MentorManagement() {
             id: 'demo-student-8',
             user_id: 'demo-student-8',
             college_name: 'Demo College',
-            course: 'B.Tech Computer Science',
+            course: 'B.Tech Information Technology',
             semester: 4,
             skills: ['React Native', 'TypeScript', 'Redux'],
             profiles: {
-              full_name: 'Ananya Gupta',
+              full_name: 'Ananya N',
               email: 'ananya.gupta@democollege.edu'
             }
           }

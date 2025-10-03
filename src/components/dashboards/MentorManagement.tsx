@@ -185,7 +185,7 @@ export default function MentorManagement() {
             skills: ['React Native', 'TypeScript', 'Redux'],
             profiles: {
               full_name: 'Ananya N',
-              email: 'ananya.gupta@democollege.edu'
+              email: 'ananya.naik@democollege.edu'
             }
           }
         ]);

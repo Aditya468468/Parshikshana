@@ -152,7 +152,7 @@ export default function CompanyDashboard() {
         <header className="bg-card border-b border-border px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold">Company</h1>
+              <h1 className="text-2xl font-bold">Industry Dashboard</h1>
             </div>
             <div className="flex items-center gap-4">
               <Button size="sm" className="gap-2">

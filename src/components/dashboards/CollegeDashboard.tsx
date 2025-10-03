@@ -169,12 +169,12 @@ export default function CollegeDashboard() {
             </div>
           </div>
 
-          {/* Student Placement Tracking */}
+          {/* Internship Placement Tracking */}
           <Card className="mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Brain className="w-5 h-5 text-accent" />
-                Student Placement Tracking
+                Internship Placement Tracking
                 <Badge className="bg-accent/20 text-accent border-0 ml-2">AI-Powered</Badge>
               </CardTitle>
             </CardHeader>
@@ -183,7 +183,7 @@ export default function CollegeDashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <div className="p-4 bg-muted/50 rounded-lg">
                     <p className="text-2xl font-bold text-primary">87%</p>
-                    <p className="text-sm text-muted-foreground">Placement Rate</p>
+                    <p className="text-sm text-muted-foreground">Internship Rate</p>
                   </div>
                   <div className="p-4 bg-muted/50 rounded-lg">
                     <p className="text-2xl font-bold text-accent">₹15,000</p>

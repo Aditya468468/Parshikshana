@@ -259,7 +259,7 @@ export default function StudentDashboard() {
                 <CardHeader>
                   <div className="flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-accent" />
-                    <CardTitle>✨ Recommended Internships by AI</CardTitle>
+                    <CardTitle>Recommended Internships by AI</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">

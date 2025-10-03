@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 import { Users, UserCheck, Mail, Award, Plus, Edit, Trash2 } from 'lucide-react';
 
 interface Student {
@@ -67,6 +68,7 @@ export default function MentorManagement() {
     max_students: 10,
   });
   const { toast } = useToast();
+  const { user: authUser, profile } = useAuth();
 
   useEffect(() => {
     fetchData();
@@ -76,9 +78,12 @@ export default function MentorManagement() {
     try {
       setLoading(true);
       
-      // Get current user's college profile
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      // Use AuthContext (supports demo logins)
+      const user = authUser;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
       // Check if this is a demo user
       if (user.id === '11111111-1111-1111-1111-111111111111') {
